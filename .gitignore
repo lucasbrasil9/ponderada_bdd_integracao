@@ -1,0 +1,5 @@
+node_modules/
+coverage/
+reports/evidence/*.json
+!reports/evidence/.gitkeep
+npm-debug.log*

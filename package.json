@@ -1,0 +1,22 @@
+{
+  "name": "ponderada-bdd-integracao",
+  "version": "1.0.0",
+  "description": "Fluxo de integracao como codigo para ponderada",
+  "main": "src/flow/uploadFiscalFlow.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "jest --runInBand --verbose",
+    "integration:evidence": "node src/runner/generateEvidence.js"
+  },
+  "keywords": [
+    "integration",
+    "quality",
+    "fiscal",
+    "flow"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
+}
