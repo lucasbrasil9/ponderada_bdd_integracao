@@ -28,6 +28,11 @@ import requests
 API = "https://api.github.com"
 
 
+def api_path(repo):
+    """GitHub API não aceita %20 no path; usa _ no lugar do espaço."""
+    return repo.replace(" ", "_")
+
+
 def auth_headers():
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
@@ -55,7 +60,7 @@ def sec_between(start_iso, end_iso):
 
 def get_workflow_id(repo, workflow_file, session):
     """Resolve o workflow file (ex: ci.yml) para o ID numérico."""
-    url = f"{API}/repos/{repo}/actions/workflows/{workflow_file}"
+    url = f"{API}/repos/{api_path(repo)}/actions/workflows/{workflow_file}"
     r = session.get(url)
     r.raise_for_status()
     return r.json()["id"]
@@ -65,7 +70,7 @@ def list_all_runs(repo, workflow_id, session, per_page=100):
     runs = []
     page = 1
     while True:
-        url = f"{API}/repos/{repo}/actions/workflows/{workflow_id}/runs"
+        url = f"{API}/repos/{api_path(repo)}/actions/workflows/{workflow_id}/runs"
         r = session.get(url, params={"per_page": per_page, "page": page})
         r.raise_for_status()
         data = r.json()
@@ -78,7 +83,7 @@ def list_all_runs(repo, workflow_id, session, per_page=100):
 
 
 def get_commit_message(repo, sha, session):
-    url = f"{API}/repos/{repo}/commits/{sha}"
+    url = f"{API}/repos/{api_path(repo)}/commits/{sha}"
     r = session.get(url)
     if r.status_code != 200:
         return ""
@@ -89,7 +94,7 @@ def get_jobs(repo, run_id, session):
     jobs = []
     page = 1
     while True:
-        url = f"{API}/repos/{repo}/actions/runs/{run_id}/jobs"
+        url = f"{API}/repos/{api_path(repo)}/actions/runs/{run_id}/jobs"
         r = session.get(url, params={"per_page": 100, "page": page})
         r.raise_for_status()
         jobs.extend(r.json()["jobs"])
@@ -102,7 +107,7 @@ def get_jobs(repo, run_id, session):
 
 def download_test_metrics_artifact(repo, run_id, session):
     """Baixa artefato 'test-results' e retorna dict com test_count/failures/avg."""
-    url = f"{API}/repos/{repo}/actions/runs/{run_id}/artifacts"
+    url = f"{API}/repos/{api_path(repo)}/actions/runs/{run_id}/artifacts"
     r = session.get(url)
     if r.status_code != 200:
         return None

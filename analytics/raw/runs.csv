@@ -1,0 +1,17 @@
+run_number,variation,run_id,commit_sha,commit_message,status,workflow_duration,test_count,test_failures,notes
+1,baseline,26891492736,695580c,docs: add RUNS.md with execution guide,success,55,32,0,primeira run (push inicial)
+2,cache_cold,26892821252,39b7edc,chore: rerun baseline (cache cold),success,59,32,0,cache limpo (deletado manual)
+3,cache_warm,26892860629,1783bad,chore: rerun baseline (cache warm),success,52,32,0,cache do #2 reutilizado
+4,test_break,26893186351,c5a88c5,test: break test on purpose,success,55,33,1,test fail mas continue-on-error => workflow success
+5,lint_fail,26893427247,7a9867d,lint: introduce no-var rule and revert test break,failure,35,NaN,NaN,esperado: lint fail
+6,slow_tests,26893549547,01053e8,test: add 5 slow tests for experiment,failure,42,NaN,NaN,no-var esquecido de remover
+7,synthetic_tests,26893565479,71f87c1,test: add 20 synthetic tests for experiment,failure,35,NaN,NaN,no-var esquecido
+8,npm_install,26893965590,1086bfa,ci: switch to npm install (no lockfile strict),failure,34,NaN,NaN,no-var esquecido
+9,collapse_1job,26897315899,7dd9263,ci: collapse jobs to single,failure,22,0,0,no-var; test step nunca roda porque lint falha antes
+10,parallel_jobs,26897332300,a5cb880,ci: parallelize lint and test,failure,17,0,0,no-var; lint paralelo falha rapido
+11,sequential_jobs,26897355538,eb785f2,ci: restore 3 sequential jobs,failure,30,NaN,NaN,no-var
+12,invert_order,26897380848,95d7dbc,ci: invert job order (lint before install),failure,19,NaN,NaN,no-var; lint primeiro
+13a,recovery_A_fail,26897395500,2d46253,test: temporarily break for recovery scenario,failure,16,NaN,NaN,no-var + test break
+13b,recovery_A_fix,26897406335,df7c749,fix: revert test failure (recovery A),failure,17,NaN,NaN,no-var; test fix nao importa
+14a,recovery_B_fail,26897449252,9db620d,lint: reintroduce no-var for recovery scenario,failure,22,NaN,NaN,no-var reativado
+14b,recovery_B_fix,26897518263,620f4af,fix: revert lint error (recovery B),success,60,32,0,no-var removido => sucesso
