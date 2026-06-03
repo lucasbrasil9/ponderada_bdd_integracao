@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  install:
+  all:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,40 +17,9 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
           restore-keys: ${{ runner.os }}-npm-
-      - name: Install dependencies
-        run: npm install
-      - name: Done
-        run: echo "install job finished at $(date -u)"
-
-  lint:
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-      - uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: ${{ runner.os }}-npm-
-      - run: npm install
+      - run: npm ci
       - name: Run ESLint
         run: npx eslint .
-
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-      - uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: ${{ runner.os }}-npm-
-      - run: npm install
       - name: Run tests with JSON output
         run: npx jest --json --outputFile=test-results.json --testLocationInResults
         continue-on-error: true
@@ -58,7 +27,7 @@ jobs:
         if: always()
         run: |
           python3 - <<'PY'
-          import json, os
+          import json
           try:
               d = json.load(open('test-results.json'))
               numTotal = d.get('numTotalTests', 0)
