@@ -2,15 +2,15 @@
 
 **Autor:** lucasbrasil9
 **Data:** 2026-06-03
-**Repo:** [lucasbrasil9/ponderada_bdd integracao](https://github.com/lucasbrasil9/ponderada_bdd integracao)
-**Workflow:** [`.github/workflows/ci.yml`](https://github.com/lucasbrasil9/ponderada_bdd integracao/blob/experimento-cicd/.github/workflows/ci.yml)
-**Branch:** [`experimento-cicd`](https://github.com/lucasbrasil9/ponderada_bdd integracao/tree/experimento-cicd)
+**Repo:** [lucasbrasil9/ponderada_bdd integracao](https://github.com/lucasbrasil9/ponderada_bdd_integracao)
+**Workflow:** [`.github/workflows/ci.yml`](https://github.com/lucasbrasil9/ponderada_bdd_integracao/blob/experimento-cicd/.github/workflows/ci.yml)
+**Branch:** [`experimento-cicd`](https://github.com/lucasbrasil9/ponderada_bdd_integracao/tree/experimento-cicd)
 
 ---
 
 ## 1. Introdução
 
-Este relatório apresenta os resultados do experimento prático de instrumentação e análise de um pipeline de CI/CD no GitHub Actions, executado sobre o repositório público `lucasbrasil9/ponderada_bdd integracao` (projeto Node.js 20 com Jest 30 e ESLint 8).
+Este relatório apresenta os resultados do experimento prático de instrumentação e análise de um pipeline de CI/CD no GitHub Actions, executado sobre o repositório público `lucasbrasil9/ponderada_bdd_integracao` (projeto Node.js 20 com Jest 30 e ESLint 8).
 
 O pipeline foi estruturado com **3 jobs sequenciais** (install → lint → test), instrumentado para emitir artefato de teste e timing de cada step, e executado **16 vezes** com variações controladas para investigar:
 
@@ -73,22 +73,22 @@ jobs:
 
 | # | Variação | Run ID | Link |
 |---|---|---|---|
-| 1 | baseline | 26891492736 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26891492736 |
-| 2 | cache_cold | 26892821252 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26892821252 |
-| 3 | cache_warm | 26892860629 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26892860629 |
-| 4 | test_break | 26893186351 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26893186351 |
-| 5 | lint_fail | 26893427247 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26893427247 |
-| 6 | slow_tests | 26893549547 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26893549547 |
-| 7 | synthetic_tests | 26893565479 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26893565479 |
-| 8 | npm_install | 26893965590 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26893965590 |
-| 9 | collapse_1job | 26897315899 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897315899 |
-| 10 | parallel_jobs | 26897332300 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897332300 |
-| 11 | sequential_jobs | 26897355538 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897355538 |
-| 12 | invert_order | 26897380848 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897380848 |
-| 13a | recovery_A_fail | 26897395500 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897395500 |
-| 13b | recovery_A_fix | 26897406335 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897406335 |
-| 14a | recovery_B_fail | 26897449252 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897449252 |
-| 14b | recovery_B_fix | 26897518263 | https://github.com/lucasbrasil9/ponderada_bdd integracao/actions/runs/26897518263 |
+| 1 | baseline | 26891492736 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26891492736 |
+| 2 | cache_cold | 26892821252 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26892821252 |
+| 3 | cache_warm | 26892860629 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26892860629 |
+| 4 | test_break | 26893186351 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26893186351 |
+| 5 | lint_fail | 26893427247 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26893427247 |
+| 6 | slow_tests | 26893549547 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26893549547 |
+| 7 | synthetic_tests | 26893565479 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26893565479 |
+| 8 | npm_install | 26893965590 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26893965590 |
+| 9 | collapse_1job | 26897315899 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897315899 |
+| 10 | parallel_jobs | 26897332300 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897332300 |
+| 11 | sequential_jobs | 26897355538 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897355538 |
+| 12 | invert_order | 26897380848 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897380848 |
+| 13a | recovery_A_fail | 26897395500 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897395500 |
+| 13b | recovery_A_fix | 26897406335 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897406335 |
+| 14a | recovery_B_fail | 26897449252 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897449252 |
+| 14b | recovery_B_fix | 26897518263 | https://github.com/lucasbrasil9/ponderada_bdd_integracao/actions/runs/26897518263 |
 
 ---
 
@@ -269,7 +269,7 @@ Sim, mas menor que o esperado. Runs #2 (cache cold, 59s) vs #3 (cache warm, 52s)
 ### 9.2 Clonar e preparar
 
 ```bash
-git clone https://github.com/lucasbrasil9/ponderada_bdd integracao.git
+git clone https://github.com/lucasbrasil9/ponderada_bdd_integracao.git
 cd "ponderada_bdd integracao"  # tem espaço no nome
 git checkout experimento-cicd
 ```
@@ -287,7 +287,7 @@ pip install -r requirements.txt
 
 ```bash
 export GITHUB_TOKEN=ghp_seu_token_aqui
-export REPO="lucasbrasil9/ponderada_bdd integracao"
+export REPO="lucasbrasil9/ponderada_bdd_integracao"
 export WORKFLOW_FILE=ci.yml
 python3 collect_metrics.py --out metrics.csv
 ```
@@ -312,7 +312,7 @@ Siga a ordem dos commits em `analytics/raw/runs.csv`. Cada `commit_message` corr
 ## 10. Arquivos entregues
 
 ```
-ponderada_bdd integracao/  (branch experimento-cicd)
+ponderada_bdd_integracao/  (branch experimento-cicd)
 ├── .github/workflows/ci.yml
 ├── tests/
 │   ├── uploadFiscalFlow.test.js
