@@ -175,8 +175,4 @@ describe("Upload fiscal integration flow", () => {
     expect(savedData.integration).toBe("upload-fiscal-flow");
     expect(savedData.execution.statusFinal).toBe("PASS");
   });
-
-  test("placeholder that will fail in run #4", () => {
-    expect(1 + 1).toBe(3);
-  });
 });

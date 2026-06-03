@@ -5,6 +5,7 @@
   "rules": {
     "no-undef": "error",
     "no-unused-vars": "warn",
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "no-var": "error"
   }
 }
