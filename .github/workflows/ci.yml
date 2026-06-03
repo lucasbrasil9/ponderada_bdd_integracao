@@ -1,0 +1,93 @@
+name: CI
+on:
+  push:
+    branches: [main, experimento-cicd]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+      - name: Install dependencies
+        run: npm ci
+      - name: Done
+        run: echo "install job finished at $(date -u)"
+
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+      - run: npm ci
+      - name: Run ESLint
+        run: npx eslint .
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+      - run: npm ci
+      - name: Run tests with JSON output
+        run: npx jest --json --outputFile=test-results.json --testLocationInResults
+        continue-on-error: true
+      - name: Compute test metrics
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          try:
+              d = json.load(open('test-results.json'))
+              numTotal = d.get('numTotalTests', 0)
+              numFailed = d.get('numFailedTests', 0)
+              perf = d.get('testResults', [])
+              durations = []
+              for f in perf:
+                  for t in f.get('testResults', []):
+                      durations.append(t.get('duration') or 0)
+              avg_ms = (sum(durations)/len(durations)) if durations else 0
+              open('test-metrics.json','w').write(json.dumps({
+                  'test_count': numTotal,
+                  'test_failures': numFailed,
+                  'avg_test_time_ms': round(avg_ms, 2)
+              }))
+              print(f"OK: {numTotal} tests, {numFailed} failed, avg {avg_ms}ms")
+          except Exception as e:
+              open('test-metrics.json','w').write(json.dumps({
+                  'test_count': 0, 'test_failures': 0, 'avg_test_time_ms': 0,
+                  'error': str(e)
+              }))
+              print(f"ERR: {e}")
+          PY
+      - name: Upload test artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            test-results.json
+            test-metrics.json
+          retention-days: 90
